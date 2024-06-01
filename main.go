@@ -4,6 +4,7 @@ package main
 //import "C"
 import (
 	"fmt"
+	"log"
 
 	"time"
 )
@@ -50,9 +51,15 @@ func getPrimesCount(end int64) int64 {
 	for time.Now().UnixNano()/int64(time.Millisecond) < finish {
 		result := getPrimesTill(int(end))
 
-		if result == primesInRange[int(end)] {
+		expected := primesInRange[int(end)]
+
+		if result == expected {
 			count++
 
+		} else {
+
+			err := fmt.Errorf("Incorrect result for range %v:  expected %v  actual %v", int(end), expected, result)
+			log.Panic(err)
 		}
 
 	}
